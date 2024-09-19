@@ -15,12 +15,12 @@ socketio = SocketIO(app)
 url = "http://192.168.0.160:8080/?action=stream"
 
 # 設定資料夾路徑
-save_folder = "static/wafer"
-result_folder = "static/result"
-if not os.path.exists(save_folder):
-    os.makedirs(save_folder)
-if not os.path.exists(result_folder):
-    os.makedirs(result_folder)
+# save_folder = "static/wafer"
+# result_folder = "static/result"
+# if not os.path.exists(save_folder):
+#     os.makedirs(save_folder)
+# if not os.path.exists(result_folder):
+#     os.makedirs(result_folder)
 
 # 初始化變數以追蹤狀態
 last_detection_time = 0
