@@ -23,4 +23,4 @@ COPY . .
 # 暴露端口
 EXPOSE 5001
 
-CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=5001"]
+CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=5003"]
