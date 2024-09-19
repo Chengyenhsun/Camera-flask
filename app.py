@@ -63,7 +63,7 @@ def detect_black_object_edge_and_average_gray(frame):
                         white_background, white_background, mask=background_mask
                     )
                     frame_with_mask = cv2.bitwise_or(frame_with_mask, frame)
-
+                    print("偵測到wafer")
                     results = model.predict(frame_with_mask)
 
                     scratch_count = 0
@@ -74,7 +74,7 @@ def detect_black_object_edge_and_average_gray(frame):
                                 scratch_count += 1
                             elif box.cls == 1:
                                 stain_count += 1
-
+                    print("辨識完成")
                     for result in results:
                         result_image = result.plot()
                         _, buffer = cv2.imencode(".jpg", result_image)
@@ -88,7 +88,7 @@ def detect_black_object_edge_and_average_gray(frame):
                                 "stain_count": stain_count,
                             },
                         )
-
+                        print("傳到前端")
                     photo_taken = True
 
         else:
