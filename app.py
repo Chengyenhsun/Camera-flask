@@ -90,12 +90,14 @@ def detect_black_object_edge_and_average_gray(frame):
                         )
                         print("傳到前端")
                     photo_taken = True
+                    socketio.emit("detection_status", "偵測到 Wafer，檢查缺陷中")
 
         else:
             status = "X"
             color = (0, 0, 255)
             photo_taken = False
             last_detection_time = 0
+            # socketio.emit("detection_status", "未偵測到 Wafer")
 
         cv2.drawContours(frame, [largest_contour], -1, color, 8)
 
