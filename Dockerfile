@@ -9,7 +9,9 @@ RUN apt-get update && \
     apt-get install -y \
         libgl1-mesa-glx \
         libglib2.0-0 \
-        libglib2.0-dev && \
+        libglib2.0-dev \
+        libsm6 \
+        libxext6 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -18,4 +20,7 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0"]
+# 暴露端口
+EXPOSE 5001
+
+CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=5001"]
