@@ -21,6 +21,6 @@ RUN pip3 install -r requirements.txt
 COPY . .
 
 # 暴露端口
-EXPOSE 5001
+EXPOSE 5003
 
 CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=5003"]
