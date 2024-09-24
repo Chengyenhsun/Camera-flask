@@ -36,7 +36,7 @@ def detect_black_object_edge_and_average_gray(frame):
     # 影像處理和辨識邏輯
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-    edges = cv2.Canny(blurred, threshold1=80, threshold2=200)
+    edges = cv2.Canny(blurred, threshold1=100, threshold2=300)
     contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     if contours:
@@ -64,6 +64,8 @@ def detect_black_object_edge_and_average_gray(frame):
                     )
                     frame_with_mask = cv2.bitwise_or(frame_with_mask, frame)
                     print("偵測到wafer")
+                    # mask_filename = f"mask_{int(time.time())}.jpg"
+                    # cv2.imwrite(mask_filename, frame_with_mask)
                     results = model.predict(frame_with_mask)
 
                     scratch_count = 0
@@ -80,6 +82,7 @@ def detect_black_object_edge_and_average_gray(frame):
                         _, buffer = cv2.imencode(".jpg", result_image)
                         result_image_bytes = base64.b64encode(buffer).decode("utf-8")
 
+                        # 傳送結果給前端
                         socketio.emit(
                             "new_result",
                             {
@@ -90,14 +93,19 @@ def detect_black_object_edge_and_average_gray(frame):
                         )
                         print("傳到前端")
                     photo_taken = True
+                    # 傳送"檢查中"狀態到前端
                     socketio.emit("detection_status", "偵測到 Wafer，檢查缺陷中")
 
+                # 傳送"檢查完成"狀態到前端
+                socketio.emit("detection_status", "檢查完成")
         else:
             status = "X"
             color = (0, 0, 255)
             photo_taken = False
             last_detection_time = 0
-            # socketio.emit("detection_status", "未偵測到 Wafer")
+
+            # 傳送"等待中"狀態到前端
+            socketio.emit("detection_status", "等待中")
 
         cv2.drawContours(frame, [largest_contour], -1, color, 8)
 

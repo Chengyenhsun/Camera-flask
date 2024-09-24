@@ -79,30 +79,30 @@
     </div>
 
     <script>
-        // 初始化 SocketIO
-        const socket = io();
+    // 初始化 SocketIO
+    const socket = io();
 
-        // 當收到新的識別結果時更新圖片和結果文字
-        socket.on('new_result', (data) => {
-            document.getElementById("result").src = data.latest_image;
-            
-            // 更新結果文字為 Scratch 和 Stain 數量
-            document.getElementById("result-text").innerHTML = 
-                `Scratch: ${data.scratch_count}<br>Stain: ${data.stain_count}`;
+    // 當收到新的識別結果時更新圖片和結果文字
+    socket.on('new_result', (data) => {
+        document.getElementById("result").src = data.latest_image;
+        
+        // 更新結果文字為 Scratch 和 Stain 數量
+        document.getElementById("result-text").innerHTML = 
+            `Scratch: ${data.scratch_count}<br>Stain: ${data.stain_count}`;
 
-            // 確保 base64 編碼圖片數據正確設置
-            const imgElement = document.getElementById("result");
-            const resultImage = `data:image/jpeg;base64,${data.latest_image}`;
-            imgElement.src = resultImage;
-            
-            // 狀態文本更新為檢查完成
-            document.getElementById("status-text").innerHTML = "檢查完成";
-        });
+        // 確保 base64 編碼圖片數據正確設置
+        const imgElement = document.getElementById("result");
+        const resultImage = `data:image/jpeg;base64,${data.latest_image}`;
+        imgElement.src = resultImage;
 
-        // 當檢測到 Wafer 時更新狀態
-        socket.on('detection_status', (status) => {
-            document.getElementById("status-text").innerHTML = status;
-        });
+        // 狀態文本更新為檢查完成
+        document.getElementById("status-text").innerHTML = "檢查完成";
+    });
+
+    // 當檢測到 Wafer 時更新狀態
+    socket.on('detection_status', (status) => {
+        document.getElementById("status-text").innerHTML = status;
+    });
     </script>
 </body>
 </html>
